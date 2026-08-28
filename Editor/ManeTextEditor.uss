@@ -1,0 +1,85 @@
+/* Block styling */
+.effect-block {
+    border-width: 1px;
+    border-color: #555;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 4px;
+}
+
+.effect-block .unity-toggle__text {
+    margin-left: 5px;
+}
+
+.header {
+    font-size: 14px;
+    -unity-font-style: bold;
+    margin-left: 2px;
+    margin-bottom: 5px;
+}
+
+.effect-header .unity-toggle__text {
+    font-size: 14px;
+    -unity-font-style: bold;
+    margin-left: 5px;
+}
+
+.effect-content {
+    margin-left: 5px;
+    margin-top: 5px;
+    padding-right: 8px;
+}
+
+.effect-block .unity-base-field__label {
+    flex-basis: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 150px;
+}
+
+.unity-property-field .unity-base-field__input {
+    margin-left: 12px;
+}
+
+.text-area {
+    margin-bottom: 4px;
+}
+
+.text-area .unity-base-field__input {
+    margin-left: 6px;
+    min-height: 64px;
+    white-space: normal;
+}
+
+.font-field .unity-base-field__input {
+    margin-left: 12px;
+}
+
+.message-box {
+    border-width: 1px;
+    border-color: #555;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+.message-icon {
+    width: 16px;
+    height: 16px;
+    background-image: resource("icons/console.warnicon.png");
+    margin-right: 5px;
+    flex-shrink: 0;
+}
+
+.message-box-label {
+    flex-grow: 1;
+    flex-wrap: wrap;
+    overflow: hidden;
+    padding-right: 20px;
+    text-overflow: ellipsis;
+    -unity-overflow-clip-box: padding-box;
+}
