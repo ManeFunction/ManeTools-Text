@@ -14,6 +14,7 @@ Changes below are compared with the old version form the legacy `ManeTools`.
 ### Added
 - Added public `CharacterSize` and `EffectsShiftZ` properties.
 - Added a scrollbar to the text field and capped it at 10 rows.
+- Added `Undefined` display for Max Width and Max Height when the value is 0.
 - Added NUnit tests for wrapping and public property setters.
 
 ### Changed

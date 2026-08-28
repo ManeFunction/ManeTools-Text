@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements"
          xmlns:uie="UnityEditor.UIElements"
+         xmlns:editor="Mane.Unity.Text.Editor"
          editor-extension-mode="True">
 
     <Style src="ManeTextEditor.uss" />
@@ -30,8 +31,10 @@
             <uie:PropertyField binding-path="_vertical" label="Vertical" />
             <uie:PropertyField binding-path="_spacingX" label="Spacing X" />
             <uie:PropertyField binding-path="_spacingY" label="Spacing Y" />
-            <uie:PropertyField binding-path="_maxWidth" label="Max Width" />
-            <uie:PropertyField binding-path="_maxHeight" label="Max Height" />
+            <editor:OptionalSizeField binding-path="_maxWidth" label="Max Width" class="size-field"
+                                      tooltip="0 is unlimited (Undefined)." />
+            <editor:OptionalSizeField binding-path="_maxHeight" label="Max Height" class="size-field"
+                                      tooltip="0 is unlimited (Undefined)." />
             <uie:PropertyField binding-path="_breakDigits" label="Break Digits" />
         </ui:VisualElement>
 

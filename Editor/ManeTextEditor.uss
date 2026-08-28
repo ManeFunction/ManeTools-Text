@@ -42,6 +42,13 @@
     margin-left: 12px;
 }
 
+.text-area,
+.font-field,
+.size-field {
+    margin-left: 0;
+    padding-left: 3px;
+}
+
 .text-area {
     margin-bottom: 4px;
 }
@@ -68,6 +75,17 @@
 }
 
 .font-field .unity-base-field__input {
+    margin-left: 5px;
+}
+
+.size-field .unity-base-field__label {
+    flex-basis: 114px;
+    width: 114px;
+    min-width: 114px;
+    max-width: 114px;
+}
+
+.size-field .unity-base-field__input {
     margin-left: 12px;
 }
 
