@@ -22,6 +22,9 @@ namespace Mane.Unity.Text.Editor
         private VisualElement _emptyFontBox;
         private bool _syncing;
 
+        private const int MinTextRows = 3;
+        private const int MaxTextRows = 10;
+
         /// <summary>Builds the inspector from the assigned UXML tree.</summary>
         public override VisualElement CreateInspectorGUI()
         {
@@ -40,6 +43,8 @@ namespace Mane.Unity.Text.Editor
             _outlineToggle = SetupEffectBlock(root, "outline", ManeText.TextEffect.Outline);
             _shadowToggle = SetupEffectBlock(root, "shadow", ManeText.TextEffect.Shadow);
 
+            SetupTextArea(root.Q<TextField>("textField"));
+
             ObjectField fontField = root.Q<ObjectField>("fontField");
             if (fontField != null)
             {
@@ -55,6 +60,69 @@ namespace Mane.Unity.Text.Editor
             SyncFromSerialized();
 
             return root;
+        }
+
+        private static void SetupTextArea(TextField textField)
+        {
+            if (textField == null)
+                return;
+
+            textField.verticalScrollerVisibility = ScrollerVisibility.Auto;
+            textField.RegisterCallback<AttachToPanelEvent>(_ => ApplyTextAreaHeight(textField));
+            textField.RegisterCallback<GeometryChangedEvent>(_ => ApplyTextAreaHeight(textField));
+        }
+
+        private static void ApplyTextAreaHeight(TextField textField)
+        {
+            if (textField.panel == null)
+                return;
+
+            VisualElement input = textField.Q(className: "unity-base-text-field__input")
+                                  ?? textField.Q(className: "unity-base-field__input");
+            if (input == null)
+                return;
+
+            float lineHeight = GetTextLineHeight(textField);
+            float extra = input.resolvedStyle.paddingTop + input.resolvedStyle.paddingBottom
+                          + input.resolvedStyle.borderTopWidth + input.resolvedStyle.borderBottomWidth;
+            float minHeight = lineHeight * MinTextRows + extra;
+            float maxHeight = lineHeight * MaxTextRows + extra;
+
+            if (input.style.maxHeight.keyword != StyleKeyword.Undefined
+                || !Mathf.Approximately(input.style.maxHeight.value.value, maxHeight))
+            {
+                input.style.minHeight = minHeight;
+                input.style.maxHeight = maxHeight;
+                input.style.overflow = Overflow.Hidden;
+            }
+
+            ScrollView scrollView = textField.Q<ScrollView>();
+            if (scrollView == null)
+                return;
+
+            scrollView.verticalScrollerVisibility = ScrollerVisibility.Auto;
+            scrollView.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+        }
+
+        private static float GetTextLineHeight(TextField textField)
+        {
+            if (textField.panel == null)
+                return EditorGUIUtility.singleLineHeight;
+
+            Vector2 size = textField.MeasureTextSize("Ag", 0, VisualElement.MeasureMode.Undefined, 0,
+                VisualElement.MeasureMode.Undefined);
+            if (size.y > 1f)
+                return size.y;
+
+            TextElement textElement = textField.Q<TextElement>();
+            if (textElement != null)
+            {
+                float fontSize = textElement.resolvedStyle.fontSize;
+                if (fontSize > 1f)
+                    return fontSize;
+            }
+
+            return EditorGUIUtility.singleLineHeight;
         }
 
         private Toggle SetupEffectBlock(VisualElement root, string elementName, ManeText.TextEffect flag)

@@ -46,10 +46,25 @@
     margin-bottom: 4px;
 }
 
+.text-area .unity-base-field__label {
+    margin-right: 8px;
+}
+
 .text-area .unity-base-field__input {
-    margin-left: 6px;
-    min-height: 64px;
     white-space: normal;
+    overflow: hidden;
+}
+
+.text-area .unity-scroll-view {
+    flex-grow: 1;
+}
+
+.text-area .unity-scroller--vertical {
+    margin-right: -1px;
+}
+
+.text-area .unity-scroller--vertical > .unity-scroller__slider {
+    overflow: visible;
 }
 
 .font-field .unity-base-field__input {

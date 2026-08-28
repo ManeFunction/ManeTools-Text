@@ -9,10 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Initial release of the extracted Unity tool for in-game text rendering. It was moved and refactored out of the legacy Unity-coupled module. Versioning starts at 2.0.0 to mark that split; this is not a new project, it is just a fresh start.
 
-Changes below are compared with the old version form legacy `ManeTools`.
+Changes below are compared with the old version form the legacy `ManeTools`.
 
 ### Added
 - Added public `CharacterSize` and `EffectsShiftZ` properties.
+- Added a scrollbar to the text field and capped it at 10 rows.
 - Added NUnit tests for wrapping and public property setters.
 
 ### Changed
