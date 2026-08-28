@@ -37,6 +37,10 @@ On Windows, I recommend `Git Bash` (`MINGW`) for CLI work: it is a Unix-like she
    - Run: `openupm add com.manefunction.unity-text`.
    - Switch back to Unity and wait for the package to finish importing.
 
+## Usage
+
+Open the `Add Component` menu on a GameObject, go to `Mane Tools -> Components -> Mane Text`, assign a font, and you are good.
+
 ## Why Preview?
 
 Despite the fact that the code itself is not new, splitting one package into a few - plus a pile of refactoring and migration to the `UI Toolkit` - is a great way to invent fresh bugs.
