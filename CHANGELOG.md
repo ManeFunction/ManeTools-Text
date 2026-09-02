@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+## [2.0.0-preview.4] - 2026-09-02
+### Added
+- Added missed entries for the latest releases.
+
+## [2.0.0-preview.3] - 2026-09-02
+### Changed
+- Removed auto-referencing from the Editor asmdef.
+
+## [2.0.0-preview.2]
+### Added
+- Added 'Usage' block to the `README` file.
+
 ## [2.0.0-preview.1] - 2026-08-28
 
 Initial release of the extracted Unity tool for in-game text rendering. It was moved and refactored out of the legacy Unity-coupled module. Versioning starts at 2.0.0 to mark that split; this is not a new project, it is just a fresh start.
