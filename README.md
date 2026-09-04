@@ -6,7 +6,7 @@ It was initially developed well before `TextMesh Pro` existed, and before the `U
 
 Treat this as a legacy tool: useful for learning how to render text from fonts, *or as a base if you need a custom renderer with full control*.
 
-The package is supported starting from **Unity 6.0.81** (6000.0.81f1).
+The package is supported starting from **Unity 6.0.81** (6000.0.81f1) and dependent on [ManeTools-Unity](https://github.com/ManeFunction/ManeTools-Unity.git) (Editor part only).
 
 ## Features
 
