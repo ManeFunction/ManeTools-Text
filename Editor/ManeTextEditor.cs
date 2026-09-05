@@ -12,10 +12,8 @@ namespace Mane.Unity.Text.Editor
     /// serialized flags mask; the rest of the fields use property binding.
     /// </summary>
     [CustomEditor(typeof(ManeText))]
-    public class ManeTextEditor : UnityEditor.Editor
+    public class ManeTextEditor : ManeEditor
     {
-        [SerializeField] private VisualTreeAsset xml;
-
         private Toggle _outlineToggle;
         private Toggle _shadowToggle;
         private VisualElement _effectsShiftBlock;
@@ -26,19 +24,9 @@ namespace Mane.Unity.Text.Editor
         private const int MinTextRows = 3;
         private const int MaxTextRows = 10;
 
-        /// <summary>Builds the inspector from the assigned UXML tree.</summary>
-        public override VisualElement CreateInspectorGUI()
+        /// <summary>Wires font gating, effect toggles, and the text area after UXML clone.</summary>
+        protected override void BuildInspector(VisualElement root)
         {
-            VisualElement root = new();
-            if (xml == null)
-            {
-                Debug.LogError("ManeTextEditor UXML is not assigned. Set it on the editor script's xml field.");
-                return root;
-            }
-
-            ManeEditorStyles.Apply(root);
-            xml.CloneTree(root);
-
             _detailsContainer = root.Q<VisualElement>("detailsContainer");
             _emptyFontBox = root.Q<VisualElement>("emptyFontBox");
             _effectsShiftBlock = root.Q<VisualElement>("effectsShiftBlock");
@@ -60,8 +48,6 @@ namespace Mane.Unity.Text.Editor
             root.TrackPropertyValue(effectProp, _ => SyncFromSerialized());
             UpdateFontGate();
             SyncFromSerialized();
-
-            return root;
         }
 
         private static void SetupTextArea(TextField textField)
