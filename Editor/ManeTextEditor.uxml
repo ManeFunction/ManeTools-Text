@@ -11,22 +11,20 @@
                   text="At first, assign a font." />
     </ui:VisualElement>
 
-    <ui:VisualElement class="effect-block">
-        <ui:Label text="Font" class="header"/>
+    <ui:VisualElement class="mie-block">
         <uie:ObjectField name="fontField" binding-path="_font" label="Font" class="font-field" />
     </ui:VisualElement>
 
     <ui:VisualElement name="detailsContainer">
-        <ui:VisualElement class="effect-block">
-            <ui:Label text="Text" class="header"/>
+        <ui:VisualElement class="mie-block">
             <ui:TextField name="textField" binding-path="_text" label="Text" multiline="true" class="text-area" />
             <uie:PropertyField binding-path="_fontSize" label="Font Size" />
             <uie:PropertyField binding-path="_characterSize" label="Character Size" />
             <uie:PropertyField binding-path="_color" label="Color" />
         </ui:VisualElement>
 
-        <ui:VisualElement class="effect-block">
-            <ui:Label text="Layout" class="header"/>
+        <ui:VisualElement class="mie-block">
+            <ui:Label text="Layout" class="mie-header"/>
             <uie:PropertyField binding-path="_horizontal" label="Horizontal" />
             <uie:PropertyField binding-path="_vertical" label="Vertical" />
             <uie:PropertyField binding-path="_spacingX" label="Spacing X" />
@@ -40,23 +38,23 @@
             <uie:PropertyField binding-path="_breakDigits" label="Break Digits" />
         </ui:VisualElement>
 
-        <ui:VisualElement name="outline" class="effect-block">
-            <ui:Toggle name="isEnableToggle" text="Outline" class="effect-header" />
-            <ui:VisualElement name="contentContainer" class="effect-content">
+        <ui:VisualElement name="outline" class="mie-block">
+            <ui:Toggle name="isEnableToggle" text="Outline" class="mie-header-toggle" />
+            <ui:VisualElement name="contentContainer" class="mie-content">
                 <uie:PropertyField binding-path="_outlineSize" label="Size" />
                 <uie:PropertyField binding-path="_outlineColor" label="Color" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <ui:VisualElement name="shadow" class="effect-block">
-            <ui:Toggle name="isEnableToggle" text="Shadow" class="effect-header" />
-            <ui:VisualElement name="contentContainer" class="effect-content">
+        <ui:VisualElement name="shadow" class="mie-block">
+            <ui:Toggle name="isEnableToggle" text="Shadow" class="mie-header-toggle" />
+            <ui:VisualElement name="contentContainer" class="mie-content">
                 <uie:PropertyField binding-path="_shadowOffset" label="Offset" />
                 <uie:PropertyField binding-path="_shadowColor" label="Color" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <ui:VisualElement name="effectsShiftBlock" class="effect-block">
+        <ui:VisualElement name="effectsShiftBlock" class="mie-block">
             <uie:PropertyField binding-path="_effectsShiftZ" label="Effects Shift Z"
                                tooltip="Z offset for outline and shadow quads." />
         </ui:VisualElement>

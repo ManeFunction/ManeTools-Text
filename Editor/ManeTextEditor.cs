@@ -1,3 +1,4 @@
+using Mane.Unity.Editor;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -35,6 +36,7 @@ namespace Mane.Unity.Text.Editor
                 return root;
             }
 
+            ManeEditorStyles.Apply(root);
             xml.CloneTree(root);
 
             _detailsContainer = root.Q<VisualElement>("detailsContainer");
