@@ -33,7 +33,7 @@
         </ui:VisualElement>
 
         <ui:VisualElement name="outline" class="mie-block">
-            <ui:Toggle name="isEnableToggle" text="Outline" class="mie-header-toggle" />
+            <mie:HeaderToggle name="isEnableToggle" text="Outline" />
             <ui:VisualElement name="contentContainer" class="mie-content">
                 <uie:PropertyField binding-path="_outlineSize" label="Size" />
                 <uie:PropertyField binding-path="_outlineColor" label="Color" />
@@ -41,7 +41,7 @@
         </ui:VisualElement>
 
         <ui:VisualElement name="shadow" class="mie-block">
-            <ui:Toggle name="isEnableToggle" text="Shadow" class="mie-header-toggle" />
+            <mie:HeaderToggle name="isEnableToggle" text="Shadow" />
             <ui:VisualElement name="contentContainer" class="mie-content">
                 <uie:PropertyField binding-path="_shadowOffset" label="Offset" />
                 <uie:PropertyField binding-path="_shadowColor" label="Color" />

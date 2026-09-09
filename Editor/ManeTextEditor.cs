@@ -1,4 +1,3 @@
-using Mane.Unity;
 using Mane.Unity.Editor;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -133,7 +132,6 @@ namespace Mane.Unity.Text.Editor
                 return null;
             }
 
-            UpdateContentVisibility();
             isEnableToggle.RegisterValueChangedCallback(evt =>
             {
                 if (_syncing)
@@ -149,16 +147,10 @@ namespace Mane.Unity.Text.Editor
 
                 effect.intValue = value;
                 serializedObject.ApplyModifiedProperties();
-                UpdateContentVisibility();
                 UpdateEffectsShiftVisibility();
             });
 
             return isEnableToggle;
-
-            void UpdateContentVisibility()
-            {
-                contentContainer.style.display = isEnableToggle.value ? DisplayStyle.Flex : DisplayStyle.None;
-            }
         }
 
         private void UpdateFontGate()
@@ -203,9 +195,6 @@ namespace Mane.Unity.Text.Editor
                 return;
 
             toggle.SetValueWithoutNotify(value);
-            VisualElement content = toggle.parent?.Q<VisualElement>("contentContainer");
-            if (content != null)
-                content.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }
