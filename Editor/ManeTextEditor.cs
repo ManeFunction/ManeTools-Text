@@ -1,3 +1,4 @@
+using Mane.Unity;
 using Mane.Unity.Editor;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -28,7 +29,9 @@ namespace Mane.Unity.Text.Editor
         protected override void BuildInspector(VisualElement root)
         {
             _detailsContainer = root.Q<VisualElement>("detailsContainer");
-            _emptyFontBox = root.Q<VisualElement>("emptyFontBox");
+            _emptyFontBox = InfoBoxDrawer.Create("At first, assign a font.", InfoBoxType.Warning);
+            _emptyFontBox.name = "emptyFontBox";
+            root.Insert(0, _emptyFontBox);
             _effectsShiftBlock = root.Q<VisualElement>("effectsShiftBlock");
             _outlineToggle = SetupEffectBlock(root, "outline", ManeText.TextEffect.Outline);
             _shadowToggle = SetupEffectBlock(root, "shadow", ManeText.TextEffect.Shadow);

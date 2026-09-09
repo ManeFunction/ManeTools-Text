@@ -3,6 +3,7 @@
     "rootNamespace": "Mane.Unity.Text.Editor",
     "references": [
         "GUID:7d81ed96d1c3049a3b16b3207f1ef7fd",
+        "GUID:92798565309a34bec92f13faca6a3153",
         "GUID:8a4e6e73610f6483791a6c2c8cdabadd"
     ],
     "includePlatforms": [

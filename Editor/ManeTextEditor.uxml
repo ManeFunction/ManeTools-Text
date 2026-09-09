@@ -5,12 +5,6 @@
 
     <Style src="ManeTextEditor.uss" />
 
-    <ui:VisualElement name="emptyFontBox" class="message-box">
-        <ui:Image class="message-icon" />
-        <ui:Label name="emptyFontLabel" class="message-box-label"
-                  text="At first, assign a font." />
-    </ui:VisualElement>
-
     <ui:VisualElement class="mie-block">
         <uie:ObjectField name="fontField" binding-path="_font" label="Font" class="font-field" />
     </ui:VisualElement>
