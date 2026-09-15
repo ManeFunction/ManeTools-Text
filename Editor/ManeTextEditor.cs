@@ -83,7 +83,6 @@ namespace Mane.Unity.Text.Editor
             {
                 input.style.minHeight = minHeight;
                 input.style.maxHeight = maxHeight;
-                input.style.overflow = Overflow.Hidden;
             }
 
             ScrollView scrollView = textField.Q<ScrollView>();
