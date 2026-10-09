@@ -423,10 +423,10 @@ namespace Mane.Unity.Text
 
 #if UNITY_EDITOR
         /// <summary>Serialized field name for the font, used by the custom inspector.</summary>
-        public const string FontPropertyName = nameof(_font);
+        internal const string FontPropertyName = nameof(_font);
 
         /// <summary>Serialized field name for effects, used by the custom inspector.</summary>
-        public const string EffectPropertyName = nameof(_effect);
+        internal const string EffectPropertyName = nameof(_effect);
 #endif
 
         
