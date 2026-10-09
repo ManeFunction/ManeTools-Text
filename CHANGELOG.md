@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Added dependency to [ManeTools-Unity](https://github.com/ManeFunction/ManeTools-Unity.git).
 
 ### Changed
-- `OptionalSizeField` replaced with universal `LimitedValueField` from the dependent package.
+- `OptionalSizeField` replaced with universal `LimitedIntField` from the dependent package.
 
 ## [2.0.0-preview.4] - 2026-09-02
 ### Added
