@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 - `OptionalSizeField` replaced with universal `LimitedIntField` from the dependent package.
 
+### Fixed
+- The text shader was left out of player builds, because only `Shader.Find` referenced it, so labels rendered nothing. It now lives in the package's `Resources` folder.
+
 ## [2.0.0-preview.4] - 2026-09-02
 ### Added
 - Added missed entries for the latest releases.

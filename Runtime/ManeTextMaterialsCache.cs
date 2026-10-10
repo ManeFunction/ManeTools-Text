@@ -6,6 +6,9 @@ namespace Mane.Unity.Text
     internal static class ManeTextMaterialsCache
     {
         private const string ShaderName = "Mane Tools/Mane Text - Alpha";
+        // Materials are created at runtime, so nothing references the shader. Keeping it under Resources
+        // is what puts it into player builds.
+        private const string ShaderResourcePath = "ManeText/ManeTextAlfa";
 
         private static readonly List<Material> Materials = new();
         private static Shader _shader;
@@ -39,7 +42,7 @@ namespace Mane.Unity.Text
             Shader shader = GetShader();
             if (shader == null)
             {
-                Debug.LogError($"Shader '{ShaderName}' was not found. Make sure it is included in the build.");
+                Debug.LogError($"Shader '{ShaderName}' was not found at Resources/{ShaderResourcePath}.");
                 return null;
             }
 
@@ -85,7 +88,7 @@ namespace Mane.Unity.Text
         private static Shader GetShader()
         {
             if (_shader == null)
-                _shader = Shader.Find(ShaderName);
+                _shader = Resources.Load<Shader>(ShaderResourcePath);
 
             return _shader;
         }
