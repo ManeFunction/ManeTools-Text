@@ -75,6 +75,10 @@ namespace Mane.Unity.Text
         [SerializeField] private Color _shadowColor = new(0f, 0f, 0f, .3f);
         [SerializeField] private float _effectsShiftZ = .1f;
 
+        // Per-instance transparent material created by this label, and the only material it destroys.
+        // Serialized only so it survives editor domain reloads; the material is DontSave, so scenes store null.
+        [SerializeField, HideInInspector] private Material _ownedMaterial;
+
         private Mesh _mesh;
         private MeshRenderer _rendererInternal;
         private int _sortingOrder;
@@ -430,7 +434,14 @@ namespace Mane.Unity.Text
 #endif
 
         
-        private void Awake() => Font.textureRebuilt += OnFontTextureRebuilt;
+        private void Awake()
+        {
+            // Awake runs for a new or duplicated object, not after a domain reload. A duplicate copies the
+            // original's reference, but the material belongs to the original.
+            _ownedMaterial = null;
+
+            Font.textureRebuilt += OnFontTextureRebuilt;
+        }
 
         private void Update()
         {
@@ -460,8 +471,7 @@ namespace Mane.Unity.Text
 #endif
             }
 
-            if (!ManeTextMaterialsCache.Contains(Renderer.sharedMaterial))
-                ManeTextMaterialsCache.Destroy(Renderer.sharedMaterial, Renderer);
+            ReleaseOwnedMaterial();
         }
 
         private void OnFontTextureRebuilt(Font changedFont)
@@ -518,37 +528,45 @@ namespace Mane.Unity.Text
             _dirty = DirtyFlags.None;
         }
 
+        // Opaque labels share one cached material per font; a transparent label owns its own material,
+        // because alpha is a material property.
         private void UpdateMaterial()
         {
-            Material m = Renderer.sharedMaterial;
-            bool cached = ManeTextMaterialsCache.Contains(m);
-
-            // Transparent to opaque || <Null> to opaque
-            if (Math.Abs(_color.a - 1f) < float.Epsilon && (m == null || !cached))
+            if (Math.Abs(_color.a - 1f) < float.Epsilon)
             {
-                if (m != null && !cached)
-                    ManeTextMaterialsCache.Destroy(m, Renderer);
+                ReleaseOwnedMaterial();
 
-                m = ManeTextMaterialsCache.Find(_font);
-                if (m == null)
-                    m = ManeTextMaterialsCache.Create(_font, true);
+                Material shared = ManeTextMaterialsCache.Find(_font);
+                if (shared == null)
+                    shared = ManeTextMaterialsCache.Create(_font, true);
 
-                Renderer.sharedMaterial = m;
+                if (Renderer.sharedMaterial != shared)
+                    Renderer.sharedMaterial = shared;
 
                 return;
             }
 
-            // Update opaque
-            if (Math.Abs(_color.a - 1f) < float.Epsilon && cached)
-                return; // do nothing
+            // A font change needs a material with the new atlas.
+            if (_ownedMaterial != null && _ownedMaterial.mainTexture != _font.material.mainTexture)
+                ReleaseOwnedMaterial();
 
-            // Opaque to transparent || <Null> to transparent
-            if (_color.a < 1f && (m == null || cached))
-                Renderer.sharedMaterial = ManeTextMaterialsCache.Create(_font, false);
+            if (_ownedMaterial == null)
+                _ownedMaterial = ManeTextMaterialsCache.Create(_font, false);
 
-            // Update transparent
-            if (Renderer.sharedMaterial != null)
-                Renderer.sharedMaterial.SetFloat(AlphaColor, _color.a);
+            if (Renderer.sharedMaterial != _ownedMaterial)
+                Renderer.sharedMaterial = _ownedMaterial;
+
+            if (_ownedMaterial != null)
+                _ownedMaterial.SetFloat(AlphaColor, _color.a);
+        }
+
+        private void ReleaseOwnedMaterial()
+        {
+            if (_ownedMaterial == null)
+                return;
+
+            ManeTextMaterialsCache.Destroy(_ownedMaterial, Renderer);
+            _ownedMaterial = null;
         }
 
         private void RebuildMesh()

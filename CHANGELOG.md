@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `OptionalSizeField` replaced with universal `LimitedIntField` from the dependent package.
 
 ### Fixed
+- A label decided which material it could destroy from the material's name. It now keeps its own per-instance material and destroys only that. This also fixes an opaque label keeping the previous font's material after a font change.
 - The text shader was left out of player builds, because only `Shader.Find` referenced it, so labels rendered nothing. It now lives in the package's `Resources` folder.
 
 ## [2.0.0-preview.4] - 2026-09-02

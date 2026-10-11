@@ -52,20 +52,12 @@ namespace Mane.Unity.Text
                 hideFlags = HideFlags.DontSave
             };
 
+            m.name = addToCache ? font.name : $"{font.name} (Instance)";
             if (addToCache)
-            {
                 Materials.Add(m);
-                m.name = font.name;
-            }
-            else
-                m.name = string.Empty;
 
             return m;
         }
-
-        // Cached materials are named after the font; per-instance ones are not.
-        public static bool Contains(Material material) =>
-            material != null && !string.IsNullOrEmpty(material.name);
 
         public static void Destroy(Material material, MeshRenderer renderer)
         {
