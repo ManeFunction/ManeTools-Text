@@ -158,10 +158,10 @@ namespace Mane.Unity.Text.Editor
             bool hasFont = serializedObject.FindProperty(ManeText.FontPropertyName).objectReferenceValue != null;
 
             if (_emptyFontBox != null)
-                _emptyFontBox.style.display = hasFont ? DisplayStyle.None : DisplayStyle.Flex;
+                _emptyFontBox.SetVisible(!hasFont);
 
             if (_detailsContainer != null)
-                _detailsContainer.style.display = hasFont ? DisplayStyle.Flex : DisplayStyle.None;
+                _detailsContainer.SetVisible(hasFont);
         }
 
         private void SyncFromSerialized()
@@ -185,7 +185,7 @@ namespace Mane.Unity.Text.Editor
 
             bool anyEffect = _outlineToggle is { value: true } ||
                              _shadowToggle is { value: true };
-            _effectsShiftBlock.style.display = anyEffect ? DisplayStyle.Flex : DisplayStyle.None;
+            _effectsShiftBlock.SetVisible(anyEffect);
         }
 
         private static void SetToggle(Toggle toggle, bool value)

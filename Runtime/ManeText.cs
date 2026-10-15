@@ -460,16 +460,7 @@ namespace Mane.Unity.Text
             Font.textureRebuilt -= OnFontTextureRebuilt;
 
             if (_mesh != null)
-            {
-#if UNITY_EDITOR
-                if (Application.isPlaying)
-                    Destroy(_mesh);
-                else
-                    DestroyImmediate(_mesh);
-#else
-                Destroy(_mesh);
-#endif
-            }
+                _mesh.SafeDestroy();
 
             ReleaseOwnedMaterial();
         }

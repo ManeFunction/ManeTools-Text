@@ -1,7 +1,9 @@
 {
     "name": "manefunction.unity-text",
     "rootNamespace": "Mane.Unity.Text",
-    "references": [],
+    "references": [
+        "GUID:92798565309a34bec92f13faca6a3153"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

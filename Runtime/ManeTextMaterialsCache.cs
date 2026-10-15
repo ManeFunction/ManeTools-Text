@@ -67,14 +67,7 @@ namespace Mane.Unity.Text
             if (renderer != null && renderer.sharedMaterial == material)
                 renderer.sharedMaterial = null;
 
-#if UNITY_EDITOR
-            if (Application.isPlaying)
-                Object.Destroy(material);
-            else
-                Object.DestroyImmediate(material);
-#else
-            Object.Destroy(material);
-#endif
+            material.SafeDestroy();
         }
 
         private static Shader GetShader()
