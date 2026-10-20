@@ -32,25 +32,7 @@
             <uie:PropertyField binding-path="_breakDigits" label="Break Digits" />
         </ui:VisualElement>
 
-        <ui:VisualElement name="outline" class="mie-block">
-            <mie:HeaderToggle name="isEnableToggle" text="Outline" />
-            <ui:VisualElement name="contentContainer" class="mie-content">
-                <uie:PropertyField binding-path="_outlineSize" label="Size" />
-                <uie:PropertyField binding-path="_outlineColor" label="Color" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-
-        <ui:VisualElement name="shadow" class="mie-block">
-            <mie:HeaderToggle name="isEnableToggle" text="Shadow" />
-            <ui:VisualElement name="contentContainer" class="mie-content">
-                <uie:PropertyField binding-path="_shadowOffset" label="Offset" />
-                <uie:PropertyField binding-path="_shadowColor" label="Color" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-
-        <ui:VisualElement name="effectsShiftBlock" class="mie-block">
-            <uie:PropertyField binding-path="_effectsShiftZ" label="Effects Shift Z"
-                               tooltip="Z offset for outline and shadow quads." />
-        </ui:VisualElement>
+        <!-- Outline and shadow blocks are built from the FeatureToggle attributes of ManeText. -->
+        <ui:VisualElement name="effects" />
     </ui:VisualElement>
 </ui:UXML>

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - `OptionalSizeField` replaced with universal `LimitedIntField` from the dependent package.
+- Outline and shadow are now two `bool` fields with `FeatureToggle`, and their inspector blocks are built from it. `Effect`, `IsOutlineActive` and the rest of the public API work as before. Labels saved with the old effects mask are converted on load.
 
 ### Fixed
 - A label decided which material it could destroy from the material's name. It now keeps its own per-instance material and destroys only that. This also fixes an opaque label keeping the previous font's material after a font change.

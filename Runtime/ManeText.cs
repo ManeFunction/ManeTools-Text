@@ -12,7 +12,7 @@ namespace Mane.Unity.Text
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
     [AddComponentMenu("Mane Tools/Components/Mane Text")]
-    public class ManeText : MonoBehaviour
+    public class ManeText : MonoBehaviour, ISerializationCallbackReceiver
     {
         private static readonly int AlphaColor = Shader.PropertyToID("_AlphaColor");
 
@@ -67,13 +67,21 @@ namespace Mane.Unity.Text
         [SerializeField] private int _maxHeight;
         [SerializeField] private bool _breakDigits = true;
 
+        [FeatureToggle]
+        [SerializeField] private bool _outline;
+        [SerializeField, Label("Size")] private float _outlineSize;
+        [SerializeField, Label("Color")] private Color _outlineColor = Color.red;
+
+        [FeatureToggle]
+        [SerializeField] private bool _shadow;
+        [SerializeField, Label("Offset")] private Vector2 _shadowOffset = new(3, -3);
+        [SerializeField, Label("Color")] private Color _shadowColor = new(0f, 0f, 0f, .3f);
+
         [Space]
-        [SerializeField] private TextEffect _effect = TextEffect.None;
-        [SerializeField] private float _outlineSize;
-        [SerializeField] private Color _outlineColor = Color.red;
-        [SerializeField] private Vector2 _shadowOffset = new(3, -3);
-        [SerializeField] private Color _shadowColor = new(0f, 0f, 0f, .3f);
-        [SerializeField] private float _effectsShiftZ = .1f;
+        [SerializeField, Tooltip("Z offset for outline and shadow quads.")] private float _effectsShiftZ = .1f;
+
+        // Outline and shadow used to share this flags mask. Read once on load into the two switches above, then cleared.
+        [SerializeField, HideInInspector] private TextEffect _effect = TextEffect.None;
 
         // Per-instance transparent material created by this label, and the only material it destroys.
         // Serialized only so it survives editor domain reloads; the material is DontSave, so scenes store null.
@@ -252,13 +260,16 @@ namespace Mane.Unity.Text
         /// <summary>Enabled geometry effects. Outline and shadow can be combined.</summary>
         public TextEffect Effect
         {
-            get => _effect;
+            get => (_outline ? TextEffect.Outline : TextEffect.None) | (_shadow ? TextEffect.Shadow : TextEffect.None);
             set
             {
-                if (_effect == value)
+                bool outline = (value & TextEffect.Outline) != 0;
+                bool shadow = (value & TextEffect.Shadow) != 0;
+                if (_outline == outline && _shadow == shadow)
                     return;
 
-                _effect = value;
+                _outline = outline;
+                _shadow = shadow;
                 _dirty |= DirtyFlags.Mesh;
             }
         }
@@ -417,23 +428,40 @@ namespace Mane.Unity.Text
         }
 
         /// <summary>True when outline quads are included in the mesh.</summary>
-        public bool IsOutlineActive => (_effect & TextEffect.Outline) != 0;
+        public bool IsOutlineActive => _outline;
 
         /// <summary>True when a shadow quad is included in the mesh.</summary>
-        public bool IsShadowActive => (_effect & TextEffect.Shadow) != 0;
+        public bool IsShadowActive => _shadow;
 
         /// <summary>True when neither outline nor shadow is enabled.</summary>
-        public bool IsNoEffectsActive => _effect == TextEffect.None;
+        public bool IsNoEffectsActive => !_outline && !_shadow;
 
 #if UNITY_EDITOR
         /// <summary>Serialized field name for the font, used by the custom inspector.</summary>
         internal const string FontPropertyName = nameof(_font);
 
-        /// <summary>Serialized field name for effects, used by the custom inspector.</summary>
-        internal const string EffectPropertyName = nameof(_effect);
+        /// <summary>Serialized field name for the outline switch, used by the custom inspector.</summary>
+        internal const string OutlinePropertyName = nameof(_outline);
+
+        /// <summary>Serialized field name for the shadow switch, used by the custom inspector.</summary>
+        internal const string ShadowPropertyName = nameof(_shadow);
+
+        /// <summary>Serialized field name for the effects Z shift, used by the custom inspector.</summary>
+        internal const string EffectsShiftZPropertyName = nameof(_effectsShiftZ);
 #endif
 
-        
+        void ISerializationCallbackReceiver.OnBeforeSerialize() { }
+
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        {
+            if (_effect == TextEffect.None)
+                return;
+
+            _outline |= (_effect & TextEffect.Outline) != 0;
+            _shadow |= (_effect & TextEffect.Shadow) != 0;
+            _effect = TextEffect.None;
+        }
+
         private void Awake()
         {
             // Awake runs for a new or duplicated object, not after a domain reload. A duplicate copies the

@@ -3,29 +3,23 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Toggle = UnityEngine.UIElements.Toggle;
 
 namespace Mane.Unity.Text.Editor
 {
     /// <summary>
-    /// UI Toolkit inspector for <see cref="ManeText"/>. Effect toggles write the
-    /// serialized flags mask; the rest of the fields use property binding.
+    /// UI Toolkit inspector for <see cref="ManeText"/>. The outline and shadow blocks are built from the
+    /// <see cref="FeatureToggleAttribute"/> fields; the rest of the fields use property binding.
     /// </summary>
     [CustomEditor(typeof(ManeText))]
     public class ManeTextEditor : ManeEditor
     {
-        private Toggle _outlineToggle;
-        private Toggle _shadowToggle;
-        private bool _syncing;
-
         private const int MinTextRows = 3;
         private const int MaxTextRows = 10;
 
-        /// <summary>Wires font gating, effect toggles, and the text area after UXML clone.</summary>
+        /// <summary>Wires font gating, effect blocks, and the text area after UXML clone.</summary>
         protected override void BuildInspector(VisualElement root)
         {
             SerializedProperty fontProp = serializedObject.FindProperty(ManeText.FontPropertyName);
-            SerializedProperty effectProp = serializedObject.FindProperty(ManeText.EffectPropertyName);
 
             VisualElement emptyFontBox = InfoBoxDrawer.Create("At first, assign a font.", InfoBoxType.Warning);
             emptyFontBox.name = "emptyFontBox";
@@ -34,12 +28,7 @@ namespace Mane.Unity.Text.Editor
             root.Require<VisualElement>("detailsContainer")
                 ?.ShowWhen(() => fontProp.objectReferenceValue != null, fontProp);
 
-            const int anyEffect = (int)(ManeText.TextEffect.Outline | ManeText.TextEffect.Shadow);
-            root.Require<VisualElement>("effectsShiftBlock")
-                ?.ShowWhen(() => (effectProp.intValue & anyEffect) != 0, effectProp);
-
-            _outlineToggle = SetupEffectToggle(root, "outline", ManeText.TextEffect.Outline);
-            _shadowToggle = SetupEffectToggle(root, "shadow", ManeText.TextEffect.Shadow);
+            SetupEffects(root.Require<VisualElement>("effects"));
 
             SetupTextArea(root.Require<TextField>("textField"));
 
@@ -50,8 +39,20 @@ namespace Mane.Unity.Text.Editor
                 fontField.allowSceneObjects = false;
             }
 
-            root.TrackPropertyValue(effectProp, _ => SyncFromSerialized());
-            SyncFromSerialized();
+        }
+
+        // Outline, shadow, and the shift they share, from the first effect switch to the end of the component.
+        private void SetupEffects(VisualElement effects)
+        {
+            if (effects == null)
+                return;
+
+            ManeInspectorLayout.Fill(effects, serializedObject, ManeText.OutlinePropertyName);
+
+            SerializedProperty outline = serializedObject.FindProperty(ManeText.OutlinePropertyName);
+            SerializedProperty shadow = serializedObject.FindProperty(ManeText.ShadowPropertyName);
+            effects.Q("PropertyField:" + ManeText.EffectsShiftZPropertyName)?.parent
+                ?.ShowWhen(() => outline.boolValue || shadow.boolValue, outline, shadow);
         }
 
         private static void SetupTextArea(TextField textField)
@@ -114,52 +115,6 @@ namespace Mane.Unity.Text.Editor
             }
 
             return EditorGUIUtility.singleLineHeight;
-        }
-
-        private Toggle SetupEffectToggle(VisualElement root, string blockName, ManeText.TextEffect flag)
-        {
-            Toggle isEnableToggle = root.Require<VisualElement>(blockName)?.Require<Toggle>("isEnableToggle");
-            if (isEnableToggle == null)
-                return null;
-
-            isEnableToggle.RegisterValueChangedCallback(evt =>
-            {
-                if (_syncing)
-                    return;
-
-                serializedObject.UpdateIfRequiredOrScript();
-                SerializedProperty effect = serializedObject.FindProperty(ManeText.EffectPropertyName);
-                int value = effect.intValue;
-                if (evt.newValue)
-                    value |= (int)flag;
-                else
-                    value &= ~(int)flag;
-
-                effect.intValue = value;
-                serializedObject.ApplyModifiedProperties();
-            });
-
-            return isEnableToggle;
-        }
-
-        private void SyncFromSerialized()
-        {
-            serializedObject.UpdateIfRequiredOrScript();
-            SerializedProperty effect = serializedObject.FindProperty(ManeText.EffectPropertyName);
-            int value = effect.intValue;
-
-            _syncing = true;
-            SetToggle(_outlineToggle, (value & (int)ManeText.TextEffect.Outline) != 0);
-            SetToggle(_shadowToggle, (value & (int)ManeText.TextEffect.Shadow) != 0);
-            _syncing = false;
-        }
-
-        private static void SetToggle(Toggle toggle, bool value)
-        {
-            if (toggle == null)
-                return;
-
-            toggle.SetValueWithoutNotify(value);
         }
     }
 }
