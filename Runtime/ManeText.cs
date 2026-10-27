@@ -19,16 +19,22 @@ namespace Mane.Unity.Text
         /// <summary>Horizontal origin of each line relative to this transform.</summary>
         public enum HorizontalAlignment
         {
+            /// <summary>Each line starts at the origin and runs to the right.</summary>
             Left = 1,
+            /// <summary>Each line is centered on the origin.</summary>
             Center = 0,
+            /// <summary>Each line ends at the origin.</summary>
             Right = 2,
         }
 
         /// <summary>Vertical origin of the block relative to this transform.</summary>
         public enum VerticalAlignment
         {
+            /// <summary>The block sits above the origin, with the last line's baseline on it.</summary>
             Top = 1,
+            /// <summary>The block is centered on the origin.</summary>
             Center = 0,
+            /// <summary>The block hangs below the origin, with the first line's ascent on it.</summary>
             Bottom = 2,
         }
 
@@ -36,8 +42,11 @@ namespace Mane.Unity.Text
         [Flags]
         public enum TextEffect
         {
+            /// <summary>No effect.</summary>
             None = 0,
+            /// <summary>Eight offset copies of each glyph around it, drawn in the outline color.</summary>
             Outline = 1,
+            /// <summary>One offset copy of each glyph behind it, drawn in the shadow color.</summary>
             Shadow = 2,
         }
 
