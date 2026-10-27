@@ -51,7 +51,7 @@ namespace Mane.Unity.Text.Editor
 
             SerializedProperty outline = serializedObject.FindProperty(ManeText.OutlinePropertyName);
             SerializedProperty shadow = serializedObject.FindProperty(ManeText.ShadowPropertyName);
-            effects.Q("PropertyField:" + ManeText.EffectsShiftZPropertyName)?.parent
+            effects.Q(ManeInspectorLayout.FieldName(ManeText.EffectsShiftZPropertyName))?.parent
                 ?.ShowWhen(() => outline.boolValue || shadow.boolValue, outline, shadow);
         }
 
