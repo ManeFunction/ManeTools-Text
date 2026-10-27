@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
 ## [2.0.0-preview.5] - 2026-10-27
 ### Added
 - Added dependency to [ManeTools-Unity](https://github.com/ManeFunction/ManeTools-Unity.git).
