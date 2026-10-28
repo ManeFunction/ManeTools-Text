@@ -6,7 +6,15 @@ It was initially developed well before `TextMesh Pro` existed, and before the `U
 
 Treat this as a legacy tool: useful for learning how to render text from fonts, *or as a base if you need a custom renderer with full control*.
 
-The package is supported starting from **Unity 6.0.81** (6000.0.81f1) and dependent on [ManeTools-Unity](https://github.com/ManeFunction/ManeTools-Unity.git).
+The package is supported from **Unity 6.0.81** (6000.0.81f1) and has dependencies managed automatically with `OpenUPM`. More information is in [Dependencies](#dependencies) section.
+
+- [Features](#features)
+- [Inspector](#inspector)
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Why Preview?](#why-preview)
+- [Repository info](#repository-info)
 
 ## Features
 
@@ -16,9 +24,15 @@ The package is supported starting from **Unity 6.0.81** (6000.0.81f1) and depend
 - Full control over character alignment and spacing.
 - NUnit coverage for wrapping and public property setters.
 
-## Look
+## Inspector
 
 ![](https://raw.githubusercontent.com/wiki/ManeFunction/ManeTools-Text/main.png)
+
+## Dependencies
+
+![](https://raw.githubusercontent.com/wiki/ManeFunction/ManeTools-Text/dependencies.png)
+
+- [ManeTools-Unity](https://github.com/ManeFunction/ManeTools-Unity.git) is required, and `OpenUPM` installs it.
 
 ## Installation
 
